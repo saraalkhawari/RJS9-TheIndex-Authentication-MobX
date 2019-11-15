@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 
@@ -20,6 +20,8 @@ class Signup extends Component {
   };
 
   render() {
+    if (authStore.user) return <Redirect to="/" />;
+
     const { username, email, password } = this.state;
 
     return (

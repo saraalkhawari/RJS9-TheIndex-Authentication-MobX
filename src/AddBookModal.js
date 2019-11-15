@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
+
+import authStore from "./stores/authStore";
 
 import BookForm from "./forms/BookForm";
 import Modal from "react-responsive-modal";
@@ -19,9 +22,15 @@ class AddBookModal extends Component {
         <Modal open={open} onClose={this.onCloseModal} center>
           <BookForm author={this.props.author} closeModal={this.onCloseModal} />
         </Modal>
-        <input type="button" onClick={this.onOpenModal} value="Add New Book!" />
+        {authStore.user && (
+          <input
+            type="button"
+            onClick={this.onOpenModal}
+            value="Add New Book!"
+          />
+        )}
       </div>
     );
   }
 }
-export default AddBookModal;
+export default observer(AddBookModal);

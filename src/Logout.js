@@ -4,11 +4,24 @@ import { observer } from "mobx-react";
 
 import authStore from "./stores/authStore";
 
+import { NavLink } from "react-router-dom";
+
 const Logout = () => {
   return (
-    <button classNmae="btn btn-danger" OnClick={authStore.logout}>
-      Logout {authStore.user.username}
-    </button>
+    <>
+      <h4 className="menu-item m-5">
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            console.log("Logging Out !");
+            authStore.logout();
+          }}
+        >
+          {authStore.user.username + " "}
+          Logout
+        </button>
+      </h4>
+    </>
   );
 };
 

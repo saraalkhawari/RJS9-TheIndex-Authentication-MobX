@@ -6,12 +6,19 @@ class AuthStore {
   user = null;
 
   setUser = token => {
-    axios.defaults.headers.common.Authorization = `JWT ${token}`;
-    const decodedUser = jwt_decode(token);
-    this.user = decodedUser;
+    if (token) {
+      axios.defaults.headers.common.Authorization = `JWT ${token}`;
+      const decodedUser = jwt_decode(token);
+      this.user = decodedUser;
+      console.log("User", decodedUser);
+    } else {
+      delete axios.defaults.headers.common.Authorization;
+      this.user = null;
+      console.log("LogedOut !", this.user);
+    }
   };
 
-  signupUser = async (userData, history) => {
+  signupUser = async userData => {
     try {
       const res = await axios.post(
         "https://the-index-api.herokuapp.com/signup/",
@@ -19,9 +26,9 @@ class AuthStore {
       );
       const user = res.data;
       this.setUser(user.token);
-      history.replace("/");
+      console.log("USER CREATED", user);
     } catch (err) {
-      console.log(err.response.data);
+      console.error(err.response.data);
     }
   };
 
@@ -33,6 +40,7 @@ class AuthStore {
       );
       const user = res.data;
       this.setUser(user.token);
+      console.log("USER LOGEDIN", user);
     } catch (err) {
       console.log(err.response.data);
     }
@@ -40,6 +48,7 @@ class AuthStore {
 
   logout = () => {
     this.setUser();
+    console.log("LogedOut !", this.user);
   };
 }
 decorate(AuthStore, {

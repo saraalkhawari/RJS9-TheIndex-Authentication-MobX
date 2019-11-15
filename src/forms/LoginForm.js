@@ -15,13 +15,13 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    // alert("I'm Working!");
     authStore.loginUser(this.state);
   };
 
   render() {
-    if (!authStore.user) {
-      return <Redirect to="/" />;
-    }
+    if (authStore.user) return <Redirect to="/" />;
+
     const { username, password } = this.state;
     return (
       <div className="col-6 mx-auto">
